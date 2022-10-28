@@ -1,23 +1,30 @@
-const { Client, GatewayIntentBits } = require("discord.js")
+const { Client, GatewayIntentBits, DiscordAPIError, Collection } = require("discord.js")
 require("dotenv").config()
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers
     ]
 })
 
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}`)
-})
+let bot = {
+    client,
+    prefix: "birb!",
+    owners: ["226472904420753418"]
+}
 
-client.on("messageCreate", (message) => {
-    if (message.content == "hi"){
-        message.reply("Hello human")
-    }
-})
+client.commands = new Collection
+client.events = new Collection
+
+client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload)
+client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload)
+
+client.loadEvents(bot, false)
+client.loadCommands(bot, false)
+
+module.exports = bot
 
 client.login(process.env.TOKEN)
