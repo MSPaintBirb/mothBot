@@ -12,7 +12,7 @@ const client = new Client({
 
 let bot = {
     client,
-    prefix: "birb!",
+    prefix: "moth!",
     owners: ["226472904420753418"]
 }
 
