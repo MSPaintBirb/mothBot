@@ -9,9 +9,8 @@ Prefix: moth!
 
 #### moth!compliment
 + For when you want to give a fun complimentary greeting, but too lazy to think of one yourself!
-+ Strings togther a random positive adjective with a random baked good in the format:
-   
-   "Heyo, my [adjective] [baked good]!"  
++ Strings togther a random positive adjective with a random baked good in the format: "Heyo, my [adjective] [baked good]!"
+
    ex. "Heyo, my dazzling blueberry muffin!"
 
 + You can add a word after the command to spice it up with some good ol' time-relevancy
