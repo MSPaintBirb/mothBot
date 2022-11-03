@@ -27,8 +27,11 @@ module.exports = {
         const adjSize = adjectives.length;
         const pasSize = pastries.length;
 
-        const randAdjId = Math.floor(Math.random() * adjSize) + 1;
-        const randPasId = Math.floor(Math.random() * pasSize) + 1;
+        // Inclusive random range format:
+        // Math.floor(Math.random() * (max - min + 1)) + min
+
+        const randAdjId = Math.floor(Math.random() * (adjSize - 1 + 1)) + 1;
+        const randPasId = Math.floor(Math.random() * (pasSize - 1 + 1)) + 1;
 
         const randAdj = await db.all(`SELECT adjective FROM adjectives WHERE id = ?`, [randAdjId]);
         const randPas = await db.all(`SELECT pastry FROM pastries WHERE id = ?`, [randPasId]);
