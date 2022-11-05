@@ -1,13 +1,22 @@
 const { Client, GatewayIntentBits, DiscordAPIError, Collection } = require("discord.js")
 require("dotenv").config()
+const { Player } = require("discord-player")
 
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates
     ]
+})
+
+client.player = new Player(client, {
+    ytdlOptions: {
+        quality: "highestaudio",
+        highWaterMark: 1 << 25
+    }
 })
 
 let bot = {
