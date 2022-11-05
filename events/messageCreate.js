@@ -5,11 +5,31 @@ module.exports = {
     run: async function runAll(bot, message) {
         const {client, prefix, owners} = bot
 
-        // If message is not in server, written by a bot,
-        // or doesn't start with the prefix, ignore it
+        // If message is not in server or written by a bot, ignore it
 
         if (!message.guild){return}
         if (message.author.bot){return}
+
+        // Special message conditions
+
+        if (message.content == "Say hi to mothBot, everyone") {
+            let channel = message.channel;
+
+            channel.send("Hi everybody! I'm mothBot!");
+
+            return;
+        }
+
+        if (message.content == "Ohayou, everybody") {
+            let channel = message.channel;
+
+            channel.send("Yeah! Good mothing, everyone!");
+
+            return;
+        }
+
+        // Otherwise, if message doesn't start with prefix, ignore it
+
         if (!message.content.startsWith(prefix)){return}
 
         // Cuts off the prefix from the message, then splits words into an array
