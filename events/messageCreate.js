@@ -1,32 +1,124 @@
 const Discord = require("discord.js")
 
+// Credit for keysmash-generating code goes to greysdawn on GitHub
+// (With personal edits made by me)
+const generateKeysmash = () => {
+
+    const CHARS = "asdfghjk";
+    const max = 20;
+    const min = 10;
+
+    // Inclusive random range format:
+    // Math.floor(Math.random() * (max - min + 1)) + min
+
+    let len = Math.floor(Math.random() * (max - min + 1)) + min;
+
+    let keysmash = "";
+
+    for(let i = 0; i < len; i++) {
+        keysmash += CHARS[Math.floor(Math.random() * (CHARS.length - 1))];
+    }
+
+    let upperChance = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+
+    // 20% chance to make it all uppercase for extra funnys
+
+    if (upperChance >= 1 && upperChance <= 20) {
+        keysmash = keysmash.toUpperCase();
+    }
+
+    return keysmash;
+}
+
 module.exports = {
     name: "messageCreate",
     run: async function runAll(bot, message) {
         const {client, prefix, owners} = bot
+        let channel = message.channel;
 
         // If message is not in server or written by a bot, ignore it
 
         if (!message.guild){return}
         if (message.author.bot){return}
 
-        // Special message conditions
+        //--------------------Special message conditions--------------------//
 
-        if (message.content == "Say hi to mothBot, everyone") {
-            let channel = message.channel;
+        const welcRegex = /say hi to mothbot, everyone/;
+        const welcMatch = welcRegex.exec(message.content.toLowerCase());
+
+        if (welcMatch) {
 
             channel.send("Hi everybody! I'm mothBot!");
+            return;
+        }
+
+        // Accepting examples:
+        // Ohayou, everybody
+        // Ohayou everybody!
+        // Ohayou, everybody but especially Skye! (mornMatch[1] will be "skye")
+        // Ohayou, everybody but especially the birthday boy! (mornMatch[1] will be "birthday boy")
+
+        const mornRegex = /^ohayou,? everybody(?: but especially (?:the )?([a-zA-Z\s']+))?/;
+        const mornMatch = mornRegex.exec(message.content.toLowerCase());
+
+        if (mornMatch) {
+
+            if (mornMatch[1]) {
+                channel.send("Yeeee! Have a great day, " + mornMatch[1] + "!");
+            }
+            else {
+                channel.send("Yeah! Good mothing, everyone!");
+            }
 
             return;
         }
 
-        if (message.content == "Ohayou, everybody") {
-            let channel = message.channel;
+        // (Decided against searching for "pff"s, but this is how to do it if I want to)
+        // const pffRegex = /^pff+$/;
+        // const pffMatch = pffRegex.exec(message.content.toLowerCase());
 
-            channel.send("Yeah! Good mothing, everyone!");
+        // If in specified channel, isn't a command, and has attachments or embeds
+
+        // ****Eventually will want to have a command that allows you to add a channel to a list of channels for this to apply in***
+        if ((message.channelId == 1035396294027513866 || message.channelId == 236364072252211200) && !message.content.startsWith(prefix) && (message.attachments.size > 0 || message.embeds[0])) {
+
+            let sendChance = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+
+            // 20% chance to send anything at all
+
+            if (sendChance >= 1 && sendChance <= 20) {
+
+                // 25% chance to send image, else keysmash
+
+                if (sendChance >= 1 && sendChance <= 5) {
+
+                    channel.send({
+                        files: [{
+                            attachment: 'https://i.imgur.com/R4TLAQh.png'
+                        }]
+                    });
+                }
+                else {
+
+                    let keysmash = generateKeysmash();
+
+                    channel.send(keysmash);
+                }
+            }
 
             return;
         }
+
+        const hiRegex = /(?:hi|hello) mothbot/;
+        const hiMatch = hiRegex.exec(message.content.toLowerCase());
+
+        if (hiMatch) {
+            message.reply("Hi!!!!!!");
+            
+            return;
+        }
+
+        //------------------------------------------------------------------//
 
         // Otherwise, if message doesn't start with prefix, ignore it
 
@@ -52,10 +144,10 @@ module.exports = {
             return message.reply("Nuh uh uh, you didn't say the magic word!")
         }
 
-        // If sender is missing any permissions on the permission list of the command, tell them
+        // If sender is missing any permissions on the permission list of the command, do same
 
         if (command.permissions && member.permissions.missing(command.permissions).length !== 0) {
-            return message.reply("You don't have permission to use this command")
+            return message.reply("Nuh uh uh, you didn't say the magic word!")
         }
 
         try {

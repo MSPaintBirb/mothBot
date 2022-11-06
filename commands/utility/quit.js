@@ -1,6 +1,3 @@
-//const { MessageEmbed } = require("discord.js")
-const { EmbedBuilder } = require('discord.js');
-
 module.exports = {
     name: "quit",
     category: "utility",
@@ -15,12 +12,20 @@ module.exports = {
         const queue = client.player.getQueue(message.guildId);
 
         if (!queue) {
-            message.reply("There aren't even any songs in the queue to quit!");
+            message.reply("I'm not even in a voice channel, dummy!");
+
+            // If still in voice channel somehow (Usually if bot restarts while in VC), leave
+            // (Doesn't work)
+            
+            // if (message.guild.me.voice.channel) {
+            //     message.guild.me.voice.channel.leave()
+            // }
+
             return;
         }
 
         queue.destroy();
 
-        message.reply("Hope you liked the music!");
+        message.reply("C ya! Hope you liked the music!");
     }
 }

@@ -14,7 +14,7 @@ module.exports = {
         if (message.content) {
             me.send(message.content);
         }
-        if (message.attachments) {
+        if (message.attachments.size > 0) {
             message.attachments.each(attachment => {
                 me.send({files: [attachment]});
             })

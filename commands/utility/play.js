@@ -1,4 +1,3 @@
-//const { MessageEmbed } = require("discord.js")
 const { EmbedBuilder } = require('discord.js');
 const { QueryType } = require("discord-player")
 
@@ -53,7 +52,16 @@ module.exports = {
                 
                 const song = result.tracks[0];
 
-                await queue.addTrack(song);
+                //---------------------------------------------------------------------------//
+                const jokeResult = await client.player.search("https://www.youtube.com/watch?v=dQw4w9WgXcQ", {
+                    requestedBy: message.member,
+                    searchEngine: QueryType.YOUTUBE_VIDEO
+                })
+
+                const jokeSong = jokeResult.tracks[0];
+                //---------------------------------------------------------------------------//
+
+                await queue.addTrack(jokeSong);
 
                 embed
                     .setDescription(`**[${song.title}](${song.url})** has been added to the queue`)
@@ -91,17 +99,25 @@ module.exports = {
                 })
 
                 if (result.tracks.length == 0) {
-                    message.reply("Sorry, couldn't find that video :(");
+                    message.reply("Sorry, couldn't find that playlist :(");
                     return;
                 }
                 
                 const playlist = result.playlist;
 
-                await queue.addTracks(result.tracks);
+                //---------------------------------------------------------------------------//
+                const jokeResult = await client.player.search("https://www.youtube.com/playlist?list=PLiVYJJzaD4wv3D5Jw-odTdp4Bv0jRLHHD", {
+                    requestedBy: message.member,
+                    searchEngine: QueryType.YOUTUBE_PLAYLIST
+                })
+
+                const jokePlaylist = jokeResult.playlist;
+                //---------------------------------------------------------------------------//
+
+                await queue.addTracks(jokeResult.tracks);
 
                 embed
                     .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the queue`)
-                    .setThumbnail(playlist.thumbnail)
 
                 channel.send({
                     embeds: [embed]
@@ -144,7 +160,16 @@ module.exports = {
                 
                 const song = result.tracks[0];
 
-                await queue.addTrack(song);
+                //---------------------------------------------------------------------------//
+                const jokeResult = await client.player.search("https://www.youtube.com/watch?v=dQw4w9WgXcQ", {
+                    requestedBy: message.member,
+                    searchEngine: QueryType.YOUTUBE_VIDEO
+                })
+
+                const jokeSong = jokeResult.tracks[0];
+                //---------------------------------------------------------------------------//
+
+                await queue.addTrack(jokeSong);
 
                 embed
                     .setDescription(`**[${song.title}](${song.url})** has been added to the queue`)
