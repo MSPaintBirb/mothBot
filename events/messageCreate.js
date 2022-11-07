@@ -118,6 +118,33 @@ module.exports = {
             return;
         }
 
+        const thanksRegex = /^(?:thanks|thank you|thankie),? mothbot/;
+        const thanksMatch = thanksRegex.exec(message.content.toLowerCase());
+
+        if (thanksMatch) {
+            message.reply("You're welcome!!! :D")
+
+            return;
+        }
+
+        const hateRegex = /(?:(?:fuck you|i hate you|i hate),? mothbot(?:\.|!)?$|^fuck mothbot$)/;
+        const hateMatch = hateRegex.exec(message.content.toLowerCase());
+
+        if (hateMatch) {
+            message.reply("That wasn't very nice ;-;");
+
+            return;
+        }
+
+        const sorryRegex = /sorry,? mothbot/;
+        const sorryMatch = sorryRegex.exec(message.content.toLowerCase());
+
+        if (sorryMatch) {
+            message.reply("It's ok, I forgive u :)");
+
+            return;
+        }
+
         //------------------------------------------------------------------//
 
         // Otherwise, if message doesn't start with prefix, ignore it
