@@ -32,7 +32,7 @@ Prefix: moth!
 #### moth!play [song/playlist/search] [url/search term]
 + Used to add either a single song or an entire playlist to the queue
 
-   ex. `moth!play song https://www.youtube.com/watch?v=voX15vG2gOk` 
+   ex. `moth!play song https://www.youtube.com/watch?v=voX15vG2gOk`  
    ex. `moth!play playlist https://www.youtube.com/playlist?list=PLqqbIIJ0YzpTATxxyfdOlzlu4O9UG9dGL`
 
 + using "search" let's you search for a phrase instead of using a direct url
