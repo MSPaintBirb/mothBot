@@ -1,4 +1,43 @@
 const Discord = require("discord.js")
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
+
+let db;
+(async () => {
+	db = await open({
+		filename: 'numStorage.sqlite',
+		driver: sqlite3.Database
+	});
+})();
+
+const getCurrentDonationCt = async () => {
+    const donoCt = await db.all(`SELECT donated FROM donations WHERE id = 1`);
+    const donoCtNum = donoCt[0].donated;
+
+    return donoCtNum;
+}
+
+const generateDonoProgress = (amt) => {
+
+    let progressBar = "";
+
+    if (amt > 0 && amt < 1/20 * 1400) {
+        progressBar = "🟪⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜⬜";
+
+        return progressBar;
+    }
+
+    for (let i = 1; i <= 20; i++) {
+        if (amt >= i/20 * 1400) {
+            progressBar += "🟪";
+        }
+        else {
+            progressBar += "⬜"
+        }
+    }
+
+    return progressBar;
+} 
 
 // Credit for keysmash-generating code goes to greysdawn on GitHub
 // (With personal edits made by me)
@@ -68,6 +107,34 @@ module.exports = {
             }
             else {
                 channel.send("Yeah! Good mothing, everyone!");
+
+                let currentDonationCt = await getCurrentDonationCt();
+
+                channel.send({
+                    components: [
+                        {
+                          "type": 1,
+                          "components": [
+                            {
+                              "style": 5,
+                              "label": `Roxy's GoFundMe`,
+                              "url": `https://gofund.me/e9f93279`,
+                              "disabled": false,
+                              "type": 2
+                            }
+                          ]
+                        }
+                      ],
+                      embeds: [
+                        {
+                          "type": "rich",
+                          "title": `Roxy Fundraiser Campaign`,
+                          "description": `Due to the IRS being shitty, Rox owes 1.4k by December 26th\nShe can make a payment plan, but it'll cost nearly $500 extra in interest\nLiterally anything you can give would help a bunch!\n\n**Progress**\n${generateDonoProgress(currentDonationCt)}\n$${currentDonationCt} / $1,400\n\nDonations accepted preferably through Zelle (972-670-0899), but her GoFundMe is also linked if you prefer that!`,
+                          "color": 0xb19cd9,
+                          "url": `https://gofund.me/e9f93279`
+                        }
+                      ]
+                })
             }
 
             return;
@@ -80,7 +147,7 @@ module.exports = {
         // If in specified channel, isn't a command, and has attachments or embeds
 
         // ****Eventually will want to have a command that allows you to add a channel to a list of channels for this to apply in***
-        if ((message.channelId == 1035396294027513866 || message.channelId == 236364072252211200) && !message.content.startsWith(prefix) && (message.attachments.size > 0 || message.embeds[0])) {
+        if ((message.channelId == 1035396294027513866 || message.channelId == 236364072252211200 || message.channelId == 791032458719658015 || message.channelId == 385895321751781381) && !message.content.startsWith(prefix) && (message.attachments.size > 0 || message.embeds[0])) {
 
             let sendChance = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
 
@@ -118,7 +185,7 @@ module.exports = {
             return;
         }
 
-        const thanksRegex = /^(?:thanks|thank you|thankie),? mothbot/;
+        const thanksRegex = /^(?:thanks|thank you|thankie|thank u),? mothbot/;
         const thanksMatch = thanksRegex.exec(message.content.toLowerCase());
 
         if (thanksMatch) {
@@ -127,7 +194,7 @@ module.exports = {
             return;
         }
 
-        const hateRegex = /(?:(?:fuck you|i hate you|i hate),? mothbot(?:\.|!)?$|^fuck mothbot$)/;
+        const hateRegex = /(?:(?:fuck you|fuck u|i hate you|i hate u|i hate),? mothbot(?:\.|!)?$|^fuck mothbot$)/;
         const hateMatch = hateRegex.exec(message.content.toLowerCase());
 
         if (hateMatch) {
