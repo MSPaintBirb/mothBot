@@ -2,10 +2,19 @@ module.exports = {
     name: "messageDelete",
     run: async function runAll(bot, message) {
 
-        console.log("Message Deleted");
+        let serverName = message.guild.name;
+        let author = message.author.username;
+
+        console.log("--------------------------------");
+        console.log("Message Deleted in " + serverName);
+        console.log("Author: " + author)
         
         if (message.content) {
-            console.log(message.content);
+            console.log("Content: " + message.content);
+        }
+
+        else {
+            console.log("Had no text content")
         }
 
         // const { client } = bot

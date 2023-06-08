@@ -1,5 +1,5 @@
 {
-  "name": "anibot",
+  "name": "mothbot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -22,5 +22,6 @@
     "nodemon": "^2.0.20",
     "sqlite": "^4.1.2",
     "sqlite3": "^5.1.2"
-  }
+  },
+  "nodeVersion": "16.17.0"
 }

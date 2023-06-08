@@ -50,7 +50,27 @@ module.exports = {
     devOnly: false,
 
     run: async ({client, message, args}) => {
-        const img = await generateImage();
+        const sketch = await generateImage();
+        const art1 = 'https://i.imgur.com/8c9S2vD.jpg';
+        const art2 = 'https://i.imgur.com/G0HUmfv.jpg';
+        const art3 = 'https://i.imgur.com/3uzCOPT.jpg';
+
+        const arts = [art1, art2, art3];
+
+        // Inclusive random range format:
+        // Math.floor(Math.random() * (max - min + 1)) + min
+
+        const randNum = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+
+        if (randNum <= 15) {
+            const artChoice = Math.floor(Math.random() * (2 - 0 + 1)) + 0;
+
+            img = arts[artChoice];
+        }
+
+        else {
+            img = sketch;
+        }
 
         const channel = message.channel;
 
