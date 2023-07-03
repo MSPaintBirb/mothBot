@@ -55,19 +55,29 @@ module.exports = {
         // Accepting examples:
         // Ohayou, everybody
         // Ohayou everybody!
-        // Ohayou, everybody but especially Skye! (mornMatch[1] will be "skye")
-        // Ohayou, everybody but especially the birthday boy! (mornMatch[1] will be "birthday boy")
+        // "Ohayou", everyboody~ (mornMatch[1] and [2] will be ")
+        // Ohayou, everybody but especially Skye! (mornMatch[3] will be "skye")
+        // Ohayou, everybody but especially the birthday boy! (mornMatch[3] will be "birthday boy")
 
-        const mornRegex = /^ohayou,? everybody(?: but especially (?:the )?([a-zA-Z\s']+))?/;
+        const mornRegex = /^(")?ohayou(")?,? everybody(?: but especially (?:the )?([a-zA-Z\s']+))?/;
         const mornMatch = mornRegex.exec(message.content.toLowerCase());
 
         if (mornMatch) {
 
-            if (mornMatch[1]) {
-                channel.send("Yeeee! Have a great day, " + mornMatch[1] + "!");
+            let mothing = "";
+
+            if (mornMatch[1] == "\"" && mornMatch[2] == "\"") {
+                mothing = "\"mothing\""
             }
             else {
-                channel.send("Yeah! Good mothing, everyone!");
+                mothing = "mothing"
+            }
+
+            if (mornMatch[3]) {
+                channel.send("Yeeee! Have a great day, " + mornMatch[3] + "!");
+            }
+            else {
+                channel.send("Yeah! Good " + mothing + ", everyone!");
             }
 
             return;

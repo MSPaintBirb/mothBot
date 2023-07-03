@@ -21,7 +21,8 @@
     "ffmpeg-static": "^5.1.0",
     "nodemon": "^2.0.20",
     "sqlite": "^4.1.2",
-    "sqlite3": "^5.1.2"
+    "sqlite3": "^5.1.2",
+    "ytdl-core": "^4.11.4"
   },
   "nodeVersion": "16.17.0"
 }
